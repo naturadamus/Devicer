@@ -1,0 +1,277 @@
+<!doctype html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>D A M U S - I F R A M E R</title>
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<style>
+		html {
+			height: 100vh;
+			width: 100%;
+			display: table;
+		}
+		
+		body {
+			height: 100vh;
+			width: 100%;
+			display: table-cell;
+			vertical-align: top;
+			background-color: #f9f9f9;
+			padding: 10px;
+			box-sizing: border-box;
+		}
+		
+		.browser {
+			display: table;
+			font-size: 0;
+			padding: 0;
+			background-color: #f2f2f2;
+			border-radius: 5px;
+			border: 2px solid #f2f2f2;
+			box-shadow: 0 25px 25px -20px rgba(0, 0, 0, 0.05);
+			box-sizing: border-box;
+		}
+		
+		.iphone-browser {
+			display: table;
+			font-size: 0;
+			padding: 0;
+			background-color: black;
+			border-radius: 5px;
+			border: 2px solid #f2f2f2;
+			box-shadow: 0 25px 25px -20px rgba(0, 0, 0, 0.05);
+			box-sizing: border-box;
+		}
+		
+		.browser-bar {
+			height: 30px;
+			width: 100%;
+			border-top-right-radius: 5px;
+			border-top-left-radius: 5px;
+		}
+		
+		.browser-bar .btns {
+			margin-top: 8px;
+			margin-left: 8px;
+			height: 12px;
+			width: 12px;
+			background-color: blue;
+			border-radius: 100%;
+			background-color: red;
+			box-shadow: 20px 0px 0px 0px green, 40px 0px 0px 0px yellow;
+			float: left;
+			opacity: .5;
+		}
+		
+		.browser-bar .address {
+			display: inline-block;
+			width: calc(100% - 82px);
+			height: 20px;
+			margin-top: 4px;
+			margin-right: 5px;
+			border-radius: 2px;
+			padding: 1px 5px;
+			float: right;
+			line-height: 20px;
+			background-color: white;
+			border: none;
+			font-family: 'Roboto', monospace;
+			font-size: .8em;
+			color: rgba(0, 0, 0, 0.3);
+			font-size: 12px;
+			font-family: monospace;
+		}
+		
+		.browser-bar .address:focus,
+		.browser-bar .address:active,
+		input:-webkit-autofill,
+		input:-webkit-autofill:hover,
+		input:-webkit-autofill:focus input:-webkit-autofill,
+		textarea:-webkit-autofill,
+		textarea:-webkit-autofill:hover textarea:-webkit-autofill:focus,
+		select:-webkit-autofill,
+		select:-webkit-autofill:hover,
+		select:-webkit-autofill:focus {
+			background-color: rgba(255, 255, 255, 0.8);
+			outline: none;
+		}
+		/* Change Autocomplete styles in Chrome
+		input:-webkit-autofill,
+		input:-webkit-autofill:hover,
+		input:-webkit-autofill:focus input:-webkit-autofill,
+		textarea:-webkit-autofill,
+		textarea:-webkit-autofill:hover textarea:-webkit-autofill:focus,
+		select:-webkit-autofill,
+		select:-webkit-autofill:hover,
+		select:-webkit-autofill:focus {
+			border: 1px solid green;
+			-webkit-text-fill-color: green;
+			-webkit-box-shadow: 0 0 0px 1000px #000 inset;
+			transition: background-color 5000s ease-in-out 0s;
+		}
+		*/
+		
+		#url-setter button {
+			display: none;
+		}
+		
+		#iframe-wrapper {
+			background-color: white;
+			width: 320px;
+			height: 480px;
+			border: none;
+		}
+		
+		iframe {
+			height: 100%;
+			width: 100%;
+			box-sizing: border-box;
+			border-bottom-right-radius: 5px;
+			border-bottom-left-radius: 5px;
+			background: transparent;
+			padding: 0;
+			margin: 0;
+			border: none;
+			overflow: auto;
+		}
+		
+		.ui-resizable-handle.ui-resizable-se.ui-icon.ui-icon-gripsmall-diagonal-se {
+			opacity: 0;
+		}
+		
+		.ui-resizable-handle.ui-resizable-se.ui-icon.ui-icon-gripsmall-diagonal-se:hover {
+			cursor: nwse-resize;
+		}
+		
+		.ui-resizable-helper {
+			border: 1px solid red;
+		}
+		
+		nav {
+			position: fixed;
+			top: 20px;
+			right: 20px;
+		}
+		
+		nav div {
+			background-color: white;
+			padding: 5px;
+			text-transform: uppercase;
+		}
+
+	</style>
+
+</head>
+
+
+<body>
+	<p id="info"> - </p>
+	<div class="browser">
+		<div class="browser-bar">
+			<div class="btns"></div>
+			<form action="" method="post" id="url-setter">
+				<input type="text" name="url" id="url" class="address" value="http://">
+				<button type="submit" name="submit"></button>
+			</form>
+		</div>
+		<div id="iframe-wrapper" class="ui-widget-content">
+			<iframe id="the-iframe" src="https://yoyo-41.myshopify.com" scrolling="no"></iframe>
+		</div>
+	</div>
+	<nav>
+		<div id="iphone-btn">iphone</div>
+		<div id="tablet-btn">tablet</div>
+		<div id="desktop-btn">desktop</div>
+	</nav>
+	<script>
+		$(function() {
+			$("#iframe-wrapper").resizable({
+				animate: true,
+				minWidth: 320,
+				minHeight: 480,
+				maxWidth: 1280,
+				maxHeight: 800
+			});
+		});
+
+		var sizeActive;
+
+		/*device changer*/
+
+		function iphonizer() {
+			$("body").css({
+				"background-color": "#eb6c6c",
+				"transition": "all 0.5s ease"
+			});
+		}
+
+		function tabletizer() {
+			$("body").css({
+				"background-color": "#a3eaa3",
+				"transition": "all 0.5s ease"
+			});
+		}
+
+		/*device buttons*/
+
+		$('#iphone-btn').click(function() {
+			$("#iframe-wrapper").animate({
+				width: "320",
+				height: "480px"
+			}, 300);
+		});
+
+		$('#tablet-btn').click(function() {
+			$("#iframe-wrapper").animate({
+				width: "768px",
+				height: "1024px"
+			}, 300);
+		});
+		$('#desktop-btn').click(function() {
+			$("#iframe-wrapper").animate({
+				width: "1280px",
+				height: "800px"
+			}, 300);
+		});
+
+		/*ACTIONS FOR RESIZING*/
+
+		function resizeAction() {
+			iWidth = $(".ui-resizable-helper").width();
+			iHeight = $(".ui-resizable-helper").height();
+			$("#info").text(iWidth + " px X " + iHeight + " px");
+
+			if ((iWidth == 320) && (iHeight == 480)) {
+				iphonizer();
+			} else {
+				tabletizer();
+			}
+		}
+		$("#iframe-wrapper").mousedown(function() {
+			sizeActive = setInterval(function() {
+				resizeAction();
+				console.log('resize activated');
+			}, 10);
+		});
+		$("#iframe-wrapper").mouseup(function() {
+			clearInterval;
+		});
+
+		$(document).ready(function() {
+			alert("ready!");
+		});
+		$("body")
+			.mouseup(function() {
+				$(this).append("<span style='color:#f00;'>Mouse up.</span>");
+			})
+			.mousedown(function() {
+				$(this).append("<span style='color:#00f;'>Mouse down.</span>");
+			});
+
+	</script>
+</body>
+
+</html>
